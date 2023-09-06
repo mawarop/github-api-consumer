@@ -1,10 +1,13 @@
-package com.gmail.oprawam.githubapiconsumer.consumer.githubdto;
+package com.gmail.oprawam.githubapiconsumer.dto.githubdto;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import lombok.Data;
+import lombok.*;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
+@Getter
 public class GithubOwner {
     private String login;
 }

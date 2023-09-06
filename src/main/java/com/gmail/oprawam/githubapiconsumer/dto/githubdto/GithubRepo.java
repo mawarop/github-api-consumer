@@ -1,16 +1,18 @@
-package com.gmail.oprawam.githubapiconsumer.consumer.githubdto;
+package com.gmail.oprawam.githubapiconsumer.dto.githubdto;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.Data;
+import lombok.*;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
+@Getter
 public class GithubRepo {
     private String name;
-    @JsonProperty("commits_url")
-    private String commitsUrl;
+    private boolean fork;
+    @JsonProperty("branches_url")
+    private String branchesUrl;
     private GithubOwner owner;
-
-
 }
