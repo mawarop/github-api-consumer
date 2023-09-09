@@ -14,13 +14,12 @@ import reactor.core.publisher.Flux;
 @RestController
 @RequiredArgsConstructor
 public class ConsumerController {
-//    private final WebClient webClient = WebClient.create("https://api.github.com");
     private final RepoService repoService;
 
     @GetMapping(value = "api/v1/github/users/{username}/repositories")
     public Flux<RepoResponse> getUserRepositoriesWithoutForks(@RequestHeader("Accept") String accept, @PathVariable String username) {
 
-        if(accept.equals("application/xml")){
+        if (accept.equals("application/xml")) {
             throw new NotAcceptableException("Wrong header. Required Accept=application/json");
         }
         return repoService.getReposWithoutFork(username);
