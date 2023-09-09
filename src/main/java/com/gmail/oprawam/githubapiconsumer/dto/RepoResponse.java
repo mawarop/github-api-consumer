@@ -1,15 +1,16 @@
 package com.gmail.oprawam.githubapiconsumer.dto;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.List;
 
-//@Getter
-//@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@Getter
+@Data
 public class RepoResponse {
     private String repositoryName;
     private String ownerLogin;

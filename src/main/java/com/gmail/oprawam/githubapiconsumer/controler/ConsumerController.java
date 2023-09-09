@@ -7,31 +7,31 @@ import com.gmail.oprawam.githubapiconsumer.dto.githubdto.GithubRepo;
 import com.gmail.oprawam.githubapiconsumer.exception.GeneralResponseException;
 import com.gmail.oprawam.githubapiconsumer.exception.NotAcceptableException;
 import com.gmail.oprawam.githubapiconsumer.exception.NotFoundException;
-import lombok.RequiredArgsConstructor;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestHeader;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 
 @RestController
-@RequiredArgsConstructor
 public class ConsumerController {
     private final WebClient webClient = WebClient.create("https://api.github.com");
 
-    @GetMapping("api/v1/github/users/{username}/repositories")
+    @GetMapping(value = "api/v1/github/users/{username}/repositories")
     public Flux<RepoResponse> getUserRepositories(@RequestHeader("Accept") String accept, @PathVariable String username) {
 
         if(accept.equals("application/xml")){
-            throw new NotAcceptableException("Not acceptable Accept header");
+            throw new NotAcceptableException("Wrong header. Required Accept=application/json");
         }
 
         return webClient.get().uri("/users/{username}/repos", username)
-//                .accept(MediaType.APPLICATION_XML)
                 .accept(MediaType.APPLICATION_JSON)
                 .retrieve()
                 .onStatus(HttpStatusCode::is4xxClientError, e ->{
@@ -39,7 +39,7 @@ public class ConsumerController {
                     throw new NotFoundException("Repo not found");
                 }
                 else {
-                    throw new GeneralResponseException("Error occured. Status " + e.statusCode());
+                    throw new GeneralResponseException("Error occurred. Status " + e.statusCode());
                 }
                 })
                 .bodyToFlux(new ParameterizedTypeReference<GithubRepo>() {
