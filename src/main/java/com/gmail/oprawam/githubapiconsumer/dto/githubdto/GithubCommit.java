@@ -12,5 +12,5 @@ import lombok.NoArgsConstructor;
 @Builder
 @Data
 public class GithubCommit {
-    String sha;
+    private String sha;
 }

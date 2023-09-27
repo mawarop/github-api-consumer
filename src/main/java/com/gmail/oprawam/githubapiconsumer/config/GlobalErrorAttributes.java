@@ -12,8 +12,9 @@ import java.util.Map;
 public class GlobalErrorAttributes extends DefaultErrorAttributes {
     @Override
     public Map<String, Object> getErrorAttributes(ServerRequest request, ErrorAttributeOptions options) {
-        Map<String, Object> errorAttributes = super.getErrorAttributes(request, options);
-        Map<String, Object> newErrorAttributes = new HashMap<>();
+        // todo
+        var errorAttributes = super.getErrorAttributes(request, options);
+        var newErrorAttributes = new HashMap<String, Object>();
         newErrorAttributes.put("status", errorAttributes.get("status"));
         newErrorAttributes.put("Message", errorAttributes.get("message"));
         return newErrorAttributes;

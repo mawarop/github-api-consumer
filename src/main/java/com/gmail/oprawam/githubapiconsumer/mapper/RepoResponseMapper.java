@@ -11,8 +11,8 @@ import java.util.List;
 @Component
 public class RepoResponseMapper {
     public RepoResponse githubRepoAndGithubBranchesToRepoResponse(GithubRepo githubRepo, List<GithubBranch> githubBranchList) {
-        return RepoResponse.builder().
-                repositoryName(githubRepo.getName())
+        return RepoResponse.builder()
+                .repositoryName(githubRepo.getName())
                 .ownerLogin(githubRepo.getOwner().getLogin())
                 .branches(githubBranchList.stream().map(githubBranch ->
                         new Branch(githubBranch.getName(), githubBranch.getCommit().getSha())).toList()).build();
