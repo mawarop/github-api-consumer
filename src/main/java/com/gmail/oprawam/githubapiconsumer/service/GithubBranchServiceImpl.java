@@ -26,16 +26,9 @@ public class GithubBranchServiceImpl implements GithubBranchService {
         return webClientBuilder.build().get().uri(branchesUrl.replaceFirst("\\{.*", ""))
                 .accept(MediaType.APPLICATION_JSON)
                 .retrieve()
-                .onStatus(HttpStatusCode::is4xxClientError, e -> {
-                    // todo zrobic lambdy dla powodzenia i failu
-
-                    if (e.statusCode().equals(HttpStatus.NOT_FOUND)) {
-                        throw new NotFoundException("Branch not found");
-                    } else {
-                        throw new GeneralResponseException("Error occurred. Status " + e.statusCode());
-                    }
-                })
-                .bodyToMono(new ParameterizedTypeReference<List<GithubBranch>>() {
+                .onStatus(HttpStatus.NOT_FOUND::equals, e ->
+                    Mono.error(new NotFoundException("Branch not found")))
+                .bodyToMono(new ParameterizedTypeReference<>() {
                 });
     }
 

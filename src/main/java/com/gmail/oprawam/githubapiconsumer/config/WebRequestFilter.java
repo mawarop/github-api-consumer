@@ -21,7 +21,6 @@ public class WebRequestFilter implements WebFilter {
     @Override
     public Mono<Void> filter(ServerWebExchange exchange, @NonNull WebFilterChain chain) {
         if (exchange.getRequest().getHeaders().getAccept().contains(MediaType.APPLICATION_XML)) {
-            // TODO: 24.09.2023 albo rzucac wyjatkiem i obslugiwac gdzies indziej albo poszukac innej opcji przerywania i od razu zwracania bledu
             exchange.getResponse().setStatusCode(HttpStatus.NOT_ACCEPTABLE);
             return exchange.getResponse().writeWith(Mono.just(dataBufferFactory.wrap("Wrong Accept header. Should be application/json !!!".getBytes())));
 //            chain.filter(exchange).subscribe();
