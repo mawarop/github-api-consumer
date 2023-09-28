@@ -16,7 +16,7 @@ public class RepoServiceImpl implements RepoService {
 
     public Flux<RepoResponse> getReposWithoutFork(String username) {
         var githubRepoFluxWithoutFork = githubRepoServiceImpl.fetchGithubRepos(username)
-                .filter(repo -> !repo.isFork());
+                .filter(repo -> !repo.fork());
         return githubRepoFluxWithoutFork.flatMap(githubRepo -> githubBranchServiceImpl
                 .fetchGithubRepoBranches(githubRepo)
                 .map(githubBranchList -> repoResponseMapper.githubRepoAndGithubBranchesToRepoResponse(githubRepo, githubBranchList)));

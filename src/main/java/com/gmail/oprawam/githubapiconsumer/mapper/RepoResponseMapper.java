@@ -12,9 +12,9 @@ import java.util.List;
 public class RepoResponseMapper {
     public RepoResponse githubRepoAndGithubBranchesToRepoResponse(GithubRepo githubRepo, List<GithubBranch> githubBranchList) {
         return RepoResponse.builder()
-                .repositoryName(githubRepo.getName())
-                .ownerLogin(githubRepo.getOwner().getLogin())
+                .repositoryName(githubRepo.name())
+                .ownerLogin(githubRepo.owner().login())
                 .branches(githubBranchList.stream().map(githubBranch ->
-                        new Branch(githubBranch.getName(), githubBranch.getCommit().getSha())).toList()).build();
+                        new Branch(githubBranch.name(), githubBranch.commit().sha())).toList()).build();
     }
 }
