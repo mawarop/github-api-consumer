@@ -1,12 +1,10 @@
 package com.gmail.oprawam.githubapiconsumer.service;
 
 import com.gmail.oprawam.githubapiconsumer.dto.githubdto.GithubRepo;
-import com.gmail.oprawam.githubapiconsumer.exception.GeneralResponseException;
 import com.gmail.oprawam.githubapiconsumer.exception.NotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;

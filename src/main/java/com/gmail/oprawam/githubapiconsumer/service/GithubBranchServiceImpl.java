@@ -25,7 +25,7 @@ public class GithubBranchServiceImpl implements GithubBranchService {
                 .accept(MediaType.APPLICATION_JSON)
                 .retrieve()
                 .onStatus(HttpStatus.NOT_FOUND::equals, e ->
-                    Mono.error(new NotFoundException("Branch not found")))
+                        Mono.error(new NotFoundException("Branch not found")))
                 .bodyToMono(new ParameterizedTypeReference<>() {
                 });
     }
