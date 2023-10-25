@@ -10,8 +10,8 @@ import reactor.core.publisher.Flux;
 @RequiredArgsConstructor
 public class RepoServiceImpl implements RepoService {
 
-    private final GithubRepoServiceImpl githubRepoServiceImpl;
-    private final GithubBranchServiceImpl githubBranchServiceImpl;
+    private final GithubRepoService githubRepoServiceImpl;
+    private final GithubBranchService githubBranchServiceImpl;
     private final RepoResponseMapper repoResponseMapper;
 
     public Flux<RepoResponse> getReposWithoutFork(String username) {
