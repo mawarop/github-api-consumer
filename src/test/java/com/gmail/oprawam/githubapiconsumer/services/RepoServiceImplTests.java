@@ -1,6 +1,5 @@
 package com.gmail.oprawam.githubapiconsumer.services;
 
-import com.gmail.oprawam.githubapiconsumer.config.WebConfig;
 import com.gmail.oprawam.githubapiconsumer.dto.githubdto.GithubBranch;
 import com.gmail.oprawam.githubapiconsumer.dto.githubdto.GithubRepo;
 import com.gmail.oprawam.githubapiconsumer.exception.NotFoundException;
@@ -16,7 +15,6 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.mockito.junit.jupiter.MockitoSettings;
 import org.mockito.quality.Strictness;
-import org.springframework.context.annotation.Import;
 import org.springframework.test.web.reactive.server.WebTestClient;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
@@ -27,7 +25,7 @@ import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.BDDMockito.given;
 
 @ExtendWith(MockitoExtension.class)
-@Import(WebConfig.class)
+//@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @MockitoSettings(strictness = Strictness.STRICT_STUBS)
 public class RepoServiceImplTests {
     public static final String REPO_NOT_FOUND = "Repo not found";
@@ -53,6 +51,11 @@ public class RepoServiceImplTests {
     @BeforeEach
     void beforeEach() {
         repoResponseMapper = new RepoResponseMapper();
+
+//        webTestClient = mock(WebTestClient.class);
+//        githubRepoService = mock(GithubRepoServiceImpl.class);
+//        githubBranchService = mock(GithubBranchServiceImpl.class);
+
         repoService = new RepoServiceImpl(githubRepoService, githubBranchService, repoResponseMapper);
     }
 
@@ -67,7 +70,6 @@ public class RepoServiceImplTests {
         given(githubRepoService.fetchGithubRepos(anyString())).willReturn(githubRepoListFlux);
         given(githubBranchService.fetchGithubRepoBranches(any(GithubRepo.class))).willReturn(monoGithubBranchList);
         var expected = githubRepoList.stream().filter(repo -> !repo.fork()).map(githubRepo -> repoResponseMapper.githubRepoAndGithubBranchesToRepoResponse(githubRepo, githubBranchList)).toList();
-
         // when
         var result = repoService.getReposWithoutFork(anyString());
         // then

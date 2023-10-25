@@ -1,31 +1,28 @@
 package com.gmail.oprawam.githubapiconsumer.services;
 
-import com.gmail.oprawam.githubapiconsumer.controler.ConsumerController;
 import com.gmail.oprawam.githubapiconsumer.dto.githubdto.GithubRepo;
 import com.gmail.oprawam.githubapiconsumer.exception.NotFoundException;
 import com.gmail.oprawam.githubapiconsumer.service.GithubRepoService;
 import com.gmail.oprawam.githubapiconsumer.service.GithubRepoServiceImpl;
-import org.hamcrest.collection.IsEmptyCollection;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.*;
+import org.mockito.ArgumentCaptor;
+import org.mockito.Mockito;
+import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.mockito.junit.jupiter.MockitoSettings;
 import org.mockito.quality.Strictness;
 import org.springframework.http.MediaType;
 import org.springframework.web.reactive.function.client.WebClient;
-
-import static org.hamcrest.MatcherAssert.assertThat;
-import org.hamcrest.core.*;
 import reactor.core.publisher.Flux;
-import reactor.core.publisher.Mono;
-import reactor.test.StepVerifier;
 
 import java.util.List;
 import java.util.UUID;
 
-import static org.hamcrest.Matchers.*;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.empty;
+import static org.hamcrest.Matchers.not;
 import static org.hamcrest.core.IsEqual.equalTo;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -37,14 +34,13 @@ import static org.mockito.Mockito.*;
 @MockitoSettings(strictness = Strictness.STRICT_STUBS)
 public class GithubRepoServiceImplTests {
     public static final String USER_NAME = "octokit";
+    @Spy
+    public WebClient.Builder webClientBuilderSpy;
     //    @Mock
     GithubRepoService githubRepoService;
 
-    @Spy
-    public WebClient.Builder webClientBuilderSpy;
-
     @BeforeEach
-    void beforeEach(){
+    void beforeEach() {
         webClientBuilderSpy = spy(WebClient.builder().baseUrl("https://api.github.com"));
 //        webClientBuilder = WebClient.builder().baseUrl("https://api.github.com");
         githubRepoService = new GithubRepoServiceImpl(webClientBuilderSpy);
@@ -52,8 +48,9 @@ public class GithubRepoServiceImplTests {
 //        webTestClient =
 //                WebTestClient.bindToController(consumerController).build();
     }
+
     @Test
-    void Should_fetchGithubRepos_When_Request_Ok(){
+    void Should_fetchGithubRepos_When_Request_Ok() {
         ArgumentCaptor<String> urlCaptor = ArgumentCaptor.forClass(String.class);
         ArgumentCaptor<String> urlArgCaptor = ArgumentCaptor.forClass(String.class);
         ArgumentCaptor<MediaType> mediaTypeArgumentCaptor = ArgumentCaptor.forClass(MediaType.class);
